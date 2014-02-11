@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="F_16Demo.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F_16Demo.h" />
+    <ClInclude Include="ED_FM_TemplateAPI.h" />
+    <ClInclude Include="ED_FM_Utility.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="UtilityFunctions.h" />
+    <ClInclude Include="Aerodynamics\F16Aero.h">
+      <Filter>Aerodynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Aerodynamics\F16AeroData.h">
+      <Filter>Aerodynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Actuators\F16Actuators.h">
+      <Filter>Actuators</Filter>
+    </ClInclude>
+    <ClInclude Include="EquationsOfMotion\F16EquationsOfMotion.h">
+      <Filter>EquationsOfMotion</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\F16Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Atmosphere\F16Atmosphere.h">
+      <Filter>Atmosphere</Filter>
+    </ClInclude>
+    <ClInclude Include="FlightControls\F16FlightControls.h">
+      <Filter>FlightControls</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Aerodynamics">
+      <UniqueIdentifier>{85cac936-532d-42ee-bb93-fa92a9082ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actuators">
+      <UniqueIdentifier>{dafa3bf6-16fb-48d7-ae7b-e1f7cf8938b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EquationsOfMotion">
+      <UniqueIdentifier>{10b1275e-62af-4fa4-a24e-f6622d5e1a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{2a589438-685e-419e-a028-e49caa20811e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Atmosphere">
+      <UniqueIdentifier>{fc3280db-4851-4500-8c0a-a6335717b2cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlightControls">
+      <UniqueIdentifier>{a631e22a-a48d-4b68-8446-701e99146567}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

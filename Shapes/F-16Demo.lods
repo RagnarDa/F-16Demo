@@ -1,0 +1,10 @@
+model={
+	lods={
+		{"F-16Demo.edm",50.0};
+		{"F-16Demo.edm",100.0};
+		{"F-16Demo.edm",500.0};
+		{"F-16Demo.edm",1500.0};
+		{"F-16Demo.edm",100000.0};
+	};
+	collision_shell="F-16Demo_COL.edm";
+}
