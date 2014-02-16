@@ -10,5 +10,8 @@
 *.sdf
 *.dll
 *.exp
-*.lib
 *.suo
+*.idb
+*.rc
+*.unsuccessfulbuild
+*.res
