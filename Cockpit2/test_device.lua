@@ -22,7 +22,7 @@ end
 
 function update()
 	local v = my_param:get()
-	print(v)
+	--print(v)
 	my_param:set(sensor_data.getMachNumber())
 	if electric_system ~= nil then
 	   local DC_V     =  electric_system:get_DC_Bus_1_voltage()

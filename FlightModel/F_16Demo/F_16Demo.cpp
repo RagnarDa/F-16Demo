@@ -192,6 +192,9 @@ namespace F16
 	double		ay_world				= 0.0;			// World referenced up/down acceleration (m/s^2)
 	double		weight_on_wheels		= 0.0;			// Weight on wheels flag (not used right now)
 	double		rolling_friction		= 0.03;			// Rolling friction amount (not use right now)
+	double		WheelBrakeCommand		= 0.0;			// Commanded wheel brake
+	double		GearCommand				= 0.0;			// Commanded gear lever
+	double		DeltaTime				= 0.0;			// Delta time of the simulation, in seconds
 }
 
 // These are taken from Export.lua
@@ -282,6 +285,17 @@ void ed_fm_add_local_moment(double & x,double &y,double &z)
 //-----------------------------------------------------------------------
 void ed_fm_simulate(double dt)
 {
+	F16::DeltaTime = dt;
+
+	/* Gear animation */
+	if (F16::gearDown > F16::GearCommand)
+	{
+		F16::gearDown = limit(F16::gearDown - dt/2, 0.0, 1.0);
+	} else if (F16::gearDown < F16::GearCommand)
+	{
+		F16::gearDown = limit(F16::gearDown + dt/2, 0.0 ,1.0);
+	}; 
+
 	/* CJS - Removed hack to filter out flight controller if on ground
 	if(F16::weight_on_wheels)
 	{
@@ -825,9 +839,16 @@ void ed_fm_set_draw_args (EdDrawArgument * drawargs,size_t size)
 	drawargs[28].f   = (float)limit(((F16::throttleInput-80.0)/20.0),0.0,1.0);
 	drawargs[29].f   = (float)limit(((F16::throttleInput-80.0)/20.0),0.0,1.0);
 	*/
-	
-	F16::gearDown = (float)drawargs[0].f;  // 1.0 = down;
-	
+	if (F16::simInitialized)
+	{
+		F16::GearCommand = drawargs[500].f;
+	} else {
+		drawargs[500].f = (float)F16::GearCommand;
+	}
+	F16::WheelBrakeCommand = drawargs[501].f;	
+	F16::weight_on_wheels = limit(drawargs[504].f + drawargs[505].f + drawargs[506].f, 0.0, 1.0);
+	// Just going to use wheight on any wheel...
+
 	//Flaps
 	drawargs[9].f = (float)F16::flap_PCT;
 	drawargs[10].f = (float)F16::flap_PCT;
@@ -844,8 +865,6 @@ void ed_fm_set_draw_args (EdDrawArgument * drawargs,size_t size)
 	drawargs[17].f = (float) F16::rudder_PCT;
 	drawargs[18].f = (float)-F16::rudder_PCT;
 
-	//Nose Gear Steering
-	drawargs[2].f = (float) F16::rudder_PCT;
 
 	drawargs[28].f   = (float)limit(((F16::throttleInput-80.0)/20.0),0.0,1.0);
 	drawargs[29].f   = (float)limit(((F16::throttleInput-80.0)/20.0),0.0,1.0);
@@ -858,7 +877,49 @@ void ed_fm_configure(const char * cfg_path)
 
 double ed_fm_get_param(unsigned index)
 {	
-	
+	/* Gear positions */
+	if (index == ED_FM_SUSPENSION_0_GEAR_POST_STATE)
+	{
+		return F16::gearDown;
+	}
+	if (index == ED_FM_SUSPENSION_1_GEAR_POST_STATE)
+	{
+		return F16::gearDown;
+	}
+	if (index == ED_FM_SUSPENSION_2_GEAR_POST_STATE)
+	{
+		return F16::gearDown;
+	}
+	if (index == ED_FM_SUSPENSION_0_DOWN_LOCK)
+	{
+		return F16::gearDown;
+	}
+	if (index == ED_FM_SUSPENSION_1_DOWN_LOCK)
+	{
+		return F16::gearDown;
+	}
+	if (index == ED_FM_SUSPENSION_2_DOWN_LOCK)
+	{
+		return F16::gearDown;
+	}
+
+	/* Gear brakes */
+	if (index == ED_FM_SUSPENSION_1_RELATIVE_BRAKE_MOMENT)
+	{
+		return F16::WheelBrakeCommand * 1;
+	}
+	if (index == ED_FM_SUSPENSION_2_RELATIVE_BRAKE_MOMENT)
+	{
+		return F16::WheelBrakeCommand * 1;
+	}
+
+
+	/* Nosewheel steering */
+	if (index == ED_FM_SUSPENSION_0_WHEEL_YAW)
+	{
+		return limit(F16::rudder_DEG * 0.012,-1.0,1.0);
+	}
+
 	if (index <= ED_FM_END_ENGINE_BLOCK)
 	{
 		switch (index)
@@ -884,12 +945,14 @@ double ed_fm_get_param(unsigned index)
 
 void ed_fm_cold_start()
 {
-
+	//F16::gearDown = 1;
+	//F16::GearCommand = 1;
 }
 
 void ed_fm_hot_start()
 {
-
+	//F16::gearDown = 1;
+	//F16::GearCommand = 1;
 }
 
 void ed_fm_hot_start_in_air()

@@ -1,9 +1,13 @@
+-- Add these from input
 Keys =
 {
 	PlanePickleOn	= 350,
 	PlanePickleOff	= 351,
 	PlaneFireOn		= 84,
 	PlaneFireOff	= 85,
+	iCommandPlaneGear = 68,
+	iCommandPlaneWheelBrakeOn = 74,
+	iCommandPlaneWheelBrakeOff = 75,
 }
 
 start_command   = 3000
